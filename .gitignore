@@ -21,3 +21,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/dist/
+/build/
+/Banque_Bancroft-Lopez-ejb/build/
+/Banque_Bancroft-Lopez-ejb/dist/
+/Banque_Bancroft-Lopez-war/build/
+/Banque_Bancroft-Lopez-war/dist/
+/nbproject/private/
