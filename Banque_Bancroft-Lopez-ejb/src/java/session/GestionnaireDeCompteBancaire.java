@@ -5,7 +5,7 @@
  */
 package session;
 
-import entity.CompteBancaire;
+import entities.CompteBancaire;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -28,9 +28,21 @@ public class GestionnaireDeCompteBancaire {
         persist(c);
     }
 
-    public List<CompteBancaire> getAllComptes() {
+    public CompteBancaire getCompteBancaire(int idCompteBancaire) {  
+        return em.find(CompteBancaire.class, idCompteBancaire);  
+    }  
+    
+    public List<CompteBancaire> getAllCompteBancaires() {
         Query query = em.createNamedQuery("CompteBancaire.findAll");  
         return query.getResultList();
+    }
+
+    public CompteBancaire update(CompteBancaire compteBancaire) {
+        return em.merge(compteBancaire);
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
     }
 
     public void creerComptesTest() {  
@@ -39,8 +51,4 @@ public class GestionnaireDeCompteBancaire {
         creerCompte(new CompteBancaire("Ringo Starr", 20000));  
         creerCompte(new CompteBancaire("Georges Harrisson", 100000));  
     } 
-
-    public void persist(Object object) {
-        em.persist(object);
-    }
 }

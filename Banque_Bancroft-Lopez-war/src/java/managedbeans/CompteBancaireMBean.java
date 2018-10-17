@@ -6,7 +6,7 @@
 package managedbeans;
 
 
-import entity.CompteBancaire;
+import entities.CompteBancaire;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;

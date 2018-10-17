@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity;
+package entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -29,7 +29,7 @@ public class CompteBancaire implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer compteBancaireId;
     private String nom;
     private int solde;
 
@@ -77,18 +77,18 @@ public class CompteBancaire implements Serializable {
         this.nom = nom;
     }
 
-    public Long getId() {
-        return id;
+    public int getCompteBancaireId() {
+        return compteBancaireId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCompteBancaireId(int compteBancaireId) {
+        this.compteBancaireId = compteBancaireId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (compteBancaireId != null ? compteBancaireId.hashCode() : 0);
         return hash;
     }
 
@@ -99,7 +99,7 @@ public class CompteBancaire implements Serializable {
             return false;
         }
         CompteBancaire other = (CompteBancaire) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.compteBancaireId == null && other.compteBancaireId != null) || (this.compteBancaireId != null && !this.compteBancaireId.equals(other.compteBancaireId))) {
             return false;
         }
         return true;
@@ -107,12 +107,13 @@ public class CompteBancaire implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CompteBancaire[ id=" + id + " ]";
+        return "entity.CompteBancaire[ compteBancaireId=" + compteBancaireId + " ]";
     }
     
-    public void deposer(int montant) {  
-    solde += montant;  
-  }  
+    public void deposer(int montant) { 
+        this.solde += montant;  
+        
+    }  
     
   public int retirer(int montant) {  
     if (montant < solde) {  

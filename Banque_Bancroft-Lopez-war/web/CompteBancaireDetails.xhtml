@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:metadata>  
+        <f:viewParam name="idCompteBancaire" value="#{compteBancaireDetailsMBean.idCompteBancaire}"  
+                     required="true"/>  
+        <f:viewAction action="#{compteBancaireDetailsMBean.loadCompteBancaire}"/>  
+    </f:metadata>  
+    <h:head>
+        <title>Détails d'un compte bancaire</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="Editer le solde"/></h1>
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="opType" value="Type d'opération : " />
+                    <p:selectOneMenu id="opType" value="#{compteBancaireDetailsMBean.opType}" required="true" requiredMessage="The Edit Type field is required.">   
+                        <f:selectItem itemLabel="Sélectionner..." itemValue="" />
+                        <f:selectItem itemLabel="Créditer" itemValue="0" />
+                        <f:selectItem itemLabel="Débiter" itemValue="1" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="montant" value="Montant : " />
+                    <p:spinner id="montant" title="Montant" value="#{compteBancaireDetailsMBean.montantOp}" />
+                </p:panelGrid>
+        
+                <p:commandButton id="back" value="Back" action="#{compteBancaireDetailsMBean.list}" ajax="false"/>  
+                <p:commandButton id="update" value="Update" action="#{compteBancaireDetailsMBean.updateBalance}" ajax="false"/>
+            </h:form>
+        </f:view>
+
+    </h:body>
+</html>
+

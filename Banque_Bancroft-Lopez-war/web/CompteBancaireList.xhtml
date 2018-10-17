@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Liste des comtpes bancaires</title>
+    </h:head>
+    <h:body>
+        <h1>liste des comptes bancaires</h1>
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="List"/></h1>
+                <p:dataTable value="#{compteBancaireMBean.compteBancaires}"  var="item" 
+                             emptyMessage="No customer found with given criteria"   
+                             widgetVar="customerTable"  
+                             paginator="true"  
+                             rows="10">
+                   <f:facet name="header">  
+                        <p:outputPanel>    
+                            <h:outputText value="Search all fields:" />    
+                            <p:inputText id="globalFilter" onkeyup="compteBancaireTable.filter()" style="width:150px" />    
+                        </p:outputPanel>  
+                    </f:facet>
+                    <p:column headerText="CompteBancaireId"  
+                            sortBy="#{item.compteBancaireId}"  
+                            filterBy="#{item.compteBancaireId}"  
+                            filterMatchMode="contains">    
+                        <h:link outcome="#{compteBancaireMBean.showDetails(item.compteBancaireId)}" value="#{item.compteBancaireId}"/>    
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Solde"/>
+                        </f:facet>
+                        <h:outputText value="#{item.solde}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </f:view>
+
+    </h:body>
+</html>

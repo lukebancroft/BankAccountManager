@@ -5,7 +5,7 @@
  */
 package session;
 
-import entity.CompteBancaire;
+import entities.CompteBancaire;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -24,6 +24,14 @@ public class CompteBancaireManager {
     @PersistenceContext(unitName = "Banque_Bancroft-Lopez-ejbPU")
     private EntityManager em;
 
+    public void creerCompte(CompteBancaire c) {
+        persist(c);
+    }
+
+    public CompteBancaire getCompteBancaire(int idCompteBancaire) {  
+        return em.find(CompteBancaire.class, idCompteBancaire);  
+    }  
+    
     public List<CompteBancaire> getAllCompteBancaires() {
         Query query = em.createNamedQuery("CompteBancaire.findAll");  
         return query.getResultList();
@@ -36,5 +44,12 @@ public class CompteBancaireManager {
     public void persist(Object object) {
         em.persist(object);
     }
+
+    public void creerComptesTest() {  
+        creerCompte(new CompteBancaire("John Lennon", 150000));  
+        creerCompte(new CompteBancaire("Paul McCartney", 950000));  
+        creerCompte(new CompteBancaire("Ringo Starr", 20000));  
+        creerCompte(new CompteBancaire("Georges Harrisson", 100000));  
+    } 
 
 }
