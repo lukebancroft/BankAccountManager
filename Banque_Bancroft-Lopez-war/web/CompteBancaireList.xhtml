@@ -15,10 +15,9 @@
             <ui:define name="content">
                 <f:view>
                     <h:form>
-                        <p:dataTable value="#{compteBancaireMBean.compteBancaires}"  var="item" 
+                        <p:dataTable value="#{compteBancaireMBean.compteBancaires}"  var="compteBancaire" 
                                      emptyMessage="No account found with given criteria"   
-                                     widgetVar="compteBancaireTable" 
-                                     selectionMode="single"
+                                     widgetVar="compteBancaireTable"  
                                      paginator="true"  
                                      rows="10"
                                      rowsPerPageTemplate="5,10,15">
@@ -28,17 +27,20 @@
                                     <p:inputText id="globalFilter" onkeyup="PF('compteBancaireTable').filter()" style="width:150px" placeholder="Entrez un mot-clé" />    
                                 </p:outputPanel>  
                             </f:facet>
-                            <p:column headerText="CompteBancaireId"  
-                                    sortBy="#{item.compteBancaireId}"  
-                                    filterBy="#{item.compteBancaireId}"  
+                            <p:column headerText="Id compte bancaire"  
+                                    sortBy="#{compteBancaire.id}"  
+                                    filterBy="#{compteBancaire.id}"  
                                     filterMatchMode="contains">    
-                                <h:link outcome="#{compteBancaireMBean.showDetails(item.compteBancaireId)}" value="#{item.compteBancaireId}"/>    
+                                <h:link outcome="#{compteBancaireMBean.showDetails(compteBancaire.id)}" value="#{compteBancaire.id}"/>    
                             </p:column>
-                            <p:column headerText="Nom titulaire" sortBy="#{item.nom}" filterBy="#{item.nom}">
-                                <h:outputText value="#{item.nom}"/>
+                            <p:column headerText="Nom propriétaire" sortBy="#{compteBancaire.nomProprietaire}" filterBy="#{compteBancaire.nomProprietaire}" filterMatchMode="contains">
+                                <h:outputText value="#{compteBancaire.nomProprietaire}"/>
                             </p:column>
-                            <p:column headerText="Solde" sortBy="#{item.solde}" filterBy="#{item.solde}">
-                                <h:outputText value="#{item.solde}"/>
+                            <p:column headerText="Solde" sortBy="#{compteBancaire.solde}" filterBy="#{compteBancaire.solde}">
+                                <h:outputText value="#{compteBancaire.solde}"/>
+                            </p:column>
+                            <p:column headerText="Détails des opérations" filterBy="#{compteBancaire.operations}" filterStyle="display:none">
+                                <h:link outcome="#{compteBancaireMBean.showOperations(compteBancaire.id)}" value="Détails"/> 
                             </p:column>
                         </p:dataTable>
                     </h:form>

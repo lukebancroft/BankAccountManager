@@ -6,6 +6,7 @@
 package session;
 
 import entities.CompteBancaire;
+import entities.OperationBancaire;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -57,4 +58,9 @@ public class CompteBancaireManager {
         creerCompte(new CompteBancaire("Georges Harrisson", 100000));  
     } 
 
+    public List<OperationBancaire> getOperationsbyCompteBancaireId(long idCompteBancaire) {
+        Query query = em.createNamedQuery("CompteBancaire.getOperationsByCompteBancaireId");
+        query.setParameter("idCompteBancaire", idCompteBancaire);
+        return query.getResultList();
+  }
 }

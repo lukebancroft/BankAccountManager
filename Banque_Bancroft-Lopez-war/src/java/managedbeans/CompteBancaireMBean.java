@@ -41,8 +41,12 @@ public class CompteBancaireMBean implements Serializable {
      * Action handler - appelé lorsque l'utilisateur sélectionne une ligne dans 
      * la DataTable pour voir les détails 
      */  
-    public String showDetails(int compteBancaireId) {  
-        return "CompteBancaireDetails?idCompteBancaire=" + compteBancaireId;
+    public String showDetails(int idCompteBancaire) {  
+        return "CompteBancaireDetails?idCompteBancaire=" + idCompteBancaire;
     }  
+    
+    public String showOperations(int idCompteBancaire) {
+        return "OperationsCompteBancaire?idCompteBancaire=" + idCompteBancaire;
+    }
     
 }

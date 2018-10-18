@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <f:metadata>  
+        <f:viewParam name="idCompteBancaire" value="#{operationsCompteBancaireMBean.idCompteBancaire}"  
+                     required="true"/>  
+    </f:metadata>  
+    
+    <h:body>
+        <ui:composition template="./resources/templates/template_default.xhtml">
+
+            <ui:define name="Title">
+                Détails des opérations
+            </ui:define>
+            
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:dataTable value="#{operationsCompteBancaireMBean.operationsCompteBancaire}"  var="operation" 
+                                     emptyMessage="Ce compte bancaire n'a pas d'opérations"   
+                                     widgetVar="operationsTable"  
+                                     paginator="true"  
+                                     rows="10"
+                                     rowsPerPageTemplate="5,10,15">
+                            <p:column headerText="Date"  
+                                    sortBy="#{operation.dateOperation}"  
+                                    filterBy="#{operation.dateOperation}"  
+                                    filterMatchMode="contains">
+                                <h:outputText value="#{operation.dateOperation}"/>   
+                            </p:column>
+                            <p:column headerText="Description" sortBy="#{operation.description}" filterBy="#{operation.description}">
+                                <h:outputText value="#{operation.description}"/>
+                            </p:column>
+                            <p:column headerText="Montant" sortBy="#{operation.montant}" filterBy="#{operation.montant}">
+                                <h:outputText value="#{operation.montant}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+
+                </f:view>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

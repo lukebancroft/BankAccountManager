@@ -41,7 +41,7 @@
                         <h1><h:outputText value="Effectuer un virement"/></h1>
                         <p:panelGrid columns="4">
                             <p:outputLabel for="compteBancaireId" value="Compte émetteur : " />
-                            <p:inputText id="compteBancaireId" value="#{compteBancaireDetailsMBean.details.compteBancaireId}" title="compteBancaireId" disabled="true"/>
+                            <p:inputText id="compteBancaireId" value="#{compteBancaireDetailsMBean.details.id}" title="compteBancaireId" disabled="true"/>
 
                             <p:outputLabel for="compteRecepteurId" value="Compte récepteur : " />
                             <p:inputText id="compteRecepteurId" value="#{compteBancaireDetailsMBean.compteRecepteurId}" title="compteRecepteurId" required="true" requiredMessage="Le compte récepteur est requis." placeholder="Saisissez l'id du compte récepteur"/>
