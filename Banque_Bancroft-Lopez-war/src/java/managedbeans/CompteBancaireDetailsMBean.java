@@ -19,8 +19,10 @@ import session.CompteBancaireManager;
 @ViewScoped  
 public class CompteBancaireDetailsMBean implements Serializable {  
   private int idCompteBancaire;  
+  private int compteRecepteurId;
   private int opType;  
   private int montantOp = 0;  
+  private int montantVirement = 0;  
   private CompteBancaire compteBancaire;  
   
   @EJB  
@@ -28,6 +30,10 @@ public class CompteBancaireDetailsMBean implements Serializable {
   
   public int getIdCompteBancaire() {  
     return idCompteBancaire;  
+  } 
+  
+  public int getCompteRecepteurId() {  
+    return compteRecepteurId;  
   } 
   
   public int getOpType() {  
@@ -38,8 +44,16 @@ public class CompteBancaireDetailsMBean implements Serializable {
     return montantOp;  
   } 
   
+  public int getMontantVirement() {  
+    return montantVirement;  
+  }
+  
   public void setIdCompteBancaire(int idCompteBancaire) {  
     this.idCompteBancaire = idCompteBancaire;  
+  } 
+  
+  public void setCompteRecepteurId(int compteRecepteurId) {  
+    this.compteRecepteurId = compteRecepteurId;  
   } 
   
   public void setOpType(int opType) {  
@@ -48,6 +62,10 @@ public class CompteBancaireDetailsMBean implements Serializable {
   
   public void setMontantOp(int montantOp) {  
     this.montantOp = montantOp;  
+  }
+  
+  public void setMontantVirement(int montantVirement) {  
+    this.montantVirement = montantVirement;  
   }
   
   /** 
@@ -70,7 +88,7 @@ public class CompteBancaireDetailsMBean implements Serializable {
   }  
   
     public String updateBalance() {  
-    System.out.println("###UPDATE###"); 
+    System.out.println("###OPERATION###"); 
     this.compteBancaire = compteBancaireManager.getCompteBancaire(idCompteBancaire);
     if (opType == 0) {
         compteBancaire.deposer(montantOp);
@@ -81,6 +99,26 @@ public class CompteBancaireDetailsMBean implements Serializable {
     compteBancaire = compteBancaireManager.update(compteBancaire);  
     return "CompteBancaireList?faces-redirect=true";  
   }  
+    
+  public String effectuerVirement() {
+    System.out.println("###VIREMENT###"); 
+    CompteBancaire compteEmetteur = compteBancaireManager.getCompteBancaire(idCompteBancaire);
+    CompteBancaire compteRecepteur = compteBancaireManager.getCompteBancaire(compteRecepteurId);
+    if (compteEmetteur.retirer(montantVirement) == montantVirement) {
+        compteRecepteur.deposer(montantVirement);
+    }
+    compteBancaireManager.update(compteEmetteur); 
+    compteBancaireManager.update(compteRecepteur);  
+    return "CompteBancaireList?faces-redirect=true";  
+  }
+  
+  public String supprimerCompte() {
+    System.out.println("###SUPPRESSION###"); 
+    this.compteBancaire = compteBancaireManager.getCompteBancaire(idCompteBancaire);
+    compteBancaireManager.delete(compteBancaire); 
+    return "CompteBancaireList?faces-redirect=true";  
+      
+  }
   
   /** 
    * Action handler - renvoie vers la page qui affiche la liste des CompteBancaire 

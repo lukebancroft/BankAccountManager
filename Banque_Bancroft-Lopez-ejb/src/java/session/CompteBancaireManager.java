@@ -40,6 +40,11 @@ public class CompteBancaireManager {
     public CompteBancaire update(CompteBancaire compteBancaire) {
         return em.merge(compteBancaire);
     }
+    
+    public void delete(CompteBancaire compteBancaire) {
+        CompteBancaire entity = em.merge(compteBancaire);
+        em.remove(entity);
+    }
 
     public void persist(Object object) {
         em.persist(object);

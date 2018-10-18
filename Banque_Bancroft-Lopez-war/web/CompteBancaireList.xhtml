@@ -3,47 +3,47 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Liste des comtpes bancaires</title>
-    </h:head>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
     <h:body>
-        <h1>liste des comptes bancaires</h1>
-        <f:view>
-            <h:form>
-                <h1><h:outputText value="List"/></h1>
-                <p:dataTable value="#{compteBancaireMBean.compteBancaires}"  var="item" 
-                             emptyMessage="No customer found with given criteria"   
-                             widgetVar="customerTable"  
-                             paginator="true"  
-                             rows="10">
-                   <f:facet name="header">  
-                        <p:outputPanel>    
-                            <h:outputText value="Search all fields:" />    
-                            <p:inputText id="globalFilter" onkeyup="compteBancaireTable.filter()" style="width:150px" />    
-                        </p:outputPanel>  
-                    </f:facet>
-                    <p:column headerText="CompteBancaireId"  
-                            sortBy="#{item.compteBancaireId}"  
-                            filterBy="#{item.compteBancaireId}"  
-                            filterMatchMode="contains">    
-                        <h:link outcome="#{compteBancaireMBean.showDetails(item.compteBancaireId)}" value="#{item.compteBancaireId}"/>    
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Nom"/>
-                        </f:facet>
-                        <h:outputText value="#{item.nom}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Solde"/>
-                        </f:facet>
-                        <h:outputText value="#{item.solde}"/>
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-        </f:view>
+        <ui:composition template="./resources/templates/template_default.xhtml">
 
+            <ui:define name="Title">
+                Liste des Comptes bancaires
+            </ui:define>
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:dataTable value="#{compteBancaireMBean.compteBancaires}"  var="item" 
+                                     emptyMessage="No account found with given criteria"   
+                                     widgetVar="compteBancaireTable" 
+                                     selectionMode="single"
+                                     paginator="true"  
+                                     rows="10"
+                                     rowsPerPageTemplate="5,10,15">
+                           <f:facet name="header">  
+                                <p:outputPanel>    
+                                    <h:outputText value="Search all fields:" />    
+                                    <p:inputText id="globalFilter" onkeyup="PF('compteBancaireTable').filter()" style="width:150px" placeholder="Entrez un mot-clé" />    
+                                </p:outputPanel>  
+                            </f:facet>
+                            <p:column headerText="CompteBancaireId"  
+                                    sortBy="#{item.compteBancaireId}"  
+                                    filterBy="#{item.compteBancaireId}"  
+                                    filterMatchMode="contains">    
+                                <h:link outcome="#{compteBancaireMBean.showDetails(item.compteBancaireId)}" value="#{item.compteBancaireId}"/>    
+                            </p:column>
+                            <p:column headerText="Nom titulaire" sortBy="#{item.nom}" filterBy="#{item.nom}">
+                                <h:outputText value="#{item.nom}"/>
+                            </p:column>
+                            <p:column headerText="Solde" sortBy="#{item.solde}" filterBy="#{item.solde}">
+                                <h:outputText value="#{item.solde}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>

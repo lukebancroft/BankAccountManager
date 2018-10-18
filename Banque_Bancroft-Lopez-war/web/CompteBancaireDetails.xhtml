@@ -3,35 +3,63 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <f:metadata>  
         <f:viewParam name="idCompteBancaire" value="#{compteBancaireDetailsMBean.idCompteBancaire}"  
                      required="true"/>  
         <f:viewAction action="#{compteBancaireDetailsMBean.loadCompteBancaire}"/>  
     </f:metadata>  
-    <h:head>
-        <title>Détails d'un compte bancaire</title>
-    </h:head>
+    
     <h:body>
-        <f:view>
-            <h:form>
-                <h1><h:outputText value="Editer le solde"/></h1>
-                <p:panelGrid columns="2">
-                    <p:outputLabel for="opType" value="Type d'opération : " />
-                    <p:selectOneMenu id="opType" value="#{compteBancaireDetailsMBean.opType}" required="true" requiredMessage="The Edit Type field is required.">   
-                        <f:selectItem itemLabel="Sélectionner..." itemValue="" />
-                        <f:selectItem itemLabel="Créditer" itemValue="0" />
-                        <f:selectItem itemLabel="Débiter" itemValue="1" />
-                    </p:selectOneMenu>
-                    <p:outputLabel for="montant" value="Montant : " />
-                    <p:spinner id="montant" title="Montant" value="#{compteBancaireDetailsMBean.montantOp}" />
-                </p:panelGrid>
-        
-                <p:commandButton id="back" value="Back" action="#{compteBancaireDetailsMBean.list}" ajax="false"/>  
-                <p:commandButton id="update" value="Update" action="#{compteBancaireDetailsMBean.updateBalance}" ajax="false"/>
-            </h:form>
-        </f:view>
+        <ui:composition template="./resources/templates/template_default.xhtml">
 
+            <ui:define name="Title">
+                Détails du Compte bancaire
+            </ui:define>
+            
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <h1><h:outputText value="Editer le solde"/></h1>
+                        <p:panelGrid columns="4">
+                            <p:outputLabel for="opType" value="Type d'opération : " />
+                            <p:selectOneMenu id="opType" value="#{compteBancaireDetailsMBean.opType}" required="true" requiredMessage="The Edit Type field is required.">   
+                                <f:selectItem itemLabel="Sélectionner..." itemValue="" />
+                                <f:selectItem itemLabel="Créditer" itemValue="0" />
+                                <f:selectItem itemLabel="Débiter" itemValue="1" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="montantOp" value="Montant : " />
+                            <p:spinner id="montantOp" title="MontantOp" value="#{compteBancaireDetailsMBean.montantOp}"  placeholder="Saisissez le montant de l'opération"/>
+                        </p:panelGrid>
+
+                        <p:commandButton id="back" value="Back" action="#{compteBancaireDetailsMBean.list}" ajax="false"/>  
+                        <p:commandButton id="update" value="Update" action="#{compteBancaireDetailsMBean.updateBalance}" ajax="false"/>
+                    </h:form>
+
+                    <h:form>
+                        <h1><h:outputText value="Effectuer un virement"/></h1>
+                        <p:panelGrid columns="4">
+                            <p:outputLabel for="compteBancaireId" value="Compte émetteur : " />
+                            <p:inputText id="compteBancaireId" value="#{compteBancaireDetailsMBean.details.compteBancaireId}" title="compteBancaireId" disabled="true"/>
+
+                            <p:outputLabel for="compteRecepteurId" value="Compte récepteur : " />
+                            <p:inputText id="compteRecepteurId" value="#{compteBancaireDetailsMBean.compteRecepteurId}" title="compteRecepteurId" required="true" requiredMessage="Le compte récepteur est requis." placeholder="Saisissez l'id du compte récepteur"/>
+
+                            <p:outputLabel for="montantVirement" value="Montant : " />
+                            <p:spinner id="montantVirement" title="montantVirement" value="#{compteBancaireDetailsMBean.montantVirement}" placeholder="Saisissez le montant du virement"/>
+                        </p:panelGrid>
+
+                        <p:commandButton id="update" value="Update" action="#{compteBancaireDetailsMBean.effectuerVirement}" ajax="false"/>
+                    </h:form>
+
+                    <h:form>
+                        <p:commandButton id="delete" value="Supprimer le compte" action="#{compteBancaireDetailsMBean.supprimerCompte}" ajax="false" icon="fa-times-circle"/>
+                    </h:form>
+
+                </f:view>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
 
