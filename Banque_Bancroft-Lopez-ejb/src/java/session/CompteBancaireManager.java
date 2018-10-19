@@ -37,6 +37,21 @@ public class CompteBancaireManager {
         Query query = em.createNamedQuery("CompteBancaire.findAll");  
         return query.getResultList();
     }
+    
+    public List<CompteBancaire> getLazyCompteBancaires(int start, int nbComptes){
+        
+        Query query =em.createNamedQuery("CompteBancaire.findAll");
+        query.setFirstResult(start);
+        query.setMaxResults(nbComptes);
+        
+        return query.getResultList();
+    }
+    
+    public int getNbComptes(){
+        Query query = em.createNamedQuery("CompteBanquaire.getNbComptes");
+        
+        return ((Long) query.getSingleResult()).intValue();
+    }
 
     public CompteBancaire update(CompteBancaire compteBancaire) {
         return em.merge(compteBancaire);

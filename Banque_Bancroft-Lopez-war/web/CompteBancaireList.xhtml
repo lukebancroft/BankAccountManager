@@ -15,12 +15,13 @@
             <ui:define name="content">
                 <f:view>
                     <h:form>
-                        <p:dataTable value="#{compteBancaireMBean.compteBancaires}"  var="compteBancaire" 
+                        <p:dataTable value="#{compteBancaireMBean.compteBancairesLazy}"  var="compteBancaire" 
                                      emptyMessage="No account found with given criteria"   
                                      widgetVar="compteBancaireTable"  
                                      paginator="true"  
-                                     rows="10"
-                                     rowsPerPageTemplate="5,10,15">
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,15"
+                                     lazy="true">
                            <f:facet name="header">  
                                 <p:outputPanel>    
                                     <h:outputText value="Search all fields:" />    

@@ -32,7 +32,10 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "CompteBancaire.findByNomProprietaire",
         query = "SELECT c FROM CompteBancaire c WHERE c.nomProprietaire = :nomProprietaire"),
     @NamedQuery(name = "CompteBancaire.getOperationsByCompteBancaireId",
-        query = "SELECT o FROM CompteBancaire c join c.operations o WHERE c.id = :idCompteBancaire")})
+        query = "SELECT o FROM CompteBancaire c join c.operations o WHERE c.id = :idCompteBancaire"),
+    @NamedQuery(name = "CompteBanquaire.getNbComptes", 
+        query = "SELECT COUNT(c) FROM CompteBancaire c")
+})
 public class CompteBancaire implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -8,10 +8,14 @@ package managedbeans;
 
 import entities.CompteBancaire;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import session.CompteBancaireManager;
 
 /**
@@ -21,12 +25,28 @@ import session.CompteBancaireManager;
 @Named(value = "compteBancaireMBean")
 @ViewScoped
 public class CompteBancaireMBean implements Serializable {
-    private List<CompteBancaire> compteBancaireList;  
+    private List<CompteBancaire> compteBancaireList; 
+    private LazyDataModel<CompteBancaire> compteBancaireLazyList;
   
     @EJB  
     private CompteBancaireManager compteBancaireManager;  
   
     public CompteBancaireMBean() {  
+        compteBancaireLazyList = new LazyDataModel<CompteBancaire>(){
+
+            @Override
+            public List load(int i, int i1, String string, SortOrder so, Map map) {
+                List<CompteBancaire> comptes = new ArrayList<CompteBancaire>();
+                comptes = compteBancaireManager.getLazyCompteBancaires(i, i1);
+                System.out.println("####### Taille du Lazy ####### : " + comptes.size());
+                return comptes;
+            }            
+                          
+            @Override     
+            public int getRowCount() {       
+                return compteBancaireManager.getNbComptes();      
+            }
+        };
     }  
   
     /** 
@@ -35,7 +55,15 @@ public class CompteBancaireMBean implements Serializable {
      */  
     public List<CompteBancaire>getCompteBancaires() {  
         return compteBancaireManager.getAllCompteBancaires();  
-    }  
+    } 
+    
+    /** 
+     * Renvoie la liste des comptes bancaires avec lazy loading pour affichage dans une DataTable 
+     * @return 
+     */  
+    public LazyDataModel getCompteBancairesLazy() {  
+        return compteBancaireLazyList;  
+    }
   
     /** 
      * Action handler - appelé lorsque l'utilisateur sélectionne une ligne dans 
