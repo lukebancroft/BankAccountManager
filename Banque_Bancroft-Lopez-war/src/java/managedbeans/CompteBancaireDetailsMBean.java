@@ -80,6 +80,7 @@ public class CompteBancaireDetailsMBean implements Serializable {
   /** 
    * Action handler - met à jour la base de données en fonction du CompteBancaire passé 
    * en paramètres, et renvoie vers la page qui affiche la liste des clients. 
+     * @return 
    */  
   public String update() {  
     System.out.println("###UPDATE###");  
@@ -122,6 +123,7 @@ public class CompteBancaireDetailsMBean implements Serializable {
   
   /** 
    * Action handler - renvoie vers la page qui affiche la liste des CompteBancaire 
+     * @return 
    */  
   public String list() {  
     System.out.println("###LIST###");  

@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,8 +30,8 @@ import javax.persistence.OneToMany;
         query = "SELECT cb FROM CompteBancaire cb"),
     @NamedQuery(name = "CompteBancaire.findById",
         query = "SELECT c FROM CompteBancaire c WHERE c.id = :id"),
-    @NamedQuery(name = "CompteBancaire.findByNomProprietaire",
-        query = "SELECT c FROM CompteBancaire c WHERE c.nomProprietaire = :nomProprietaire"),
+    @NamedQuery(name = "CompteBancaire.findByProprietaire",
+        query = "SELECT c FROM CompteBancaire c WHERE c.proprietaire = :proprietaire"),
     @NamedQuery(name = "CompteBancaire.getOperationsByCompteBancaireId",
         query = "SELECT o FROM CompteBancaire c join c.operations o WHERE c.id = :idCompteBancaire"),
     @NamedQuery(name = "CompteBanquaire.getNbComptes", 
@@ -42,16 +43,18 @@ public class CompteBancaire implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String nomProprietaire;
     private int solde;
     @OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private Collection<OperationBancaire> operations = new ArrayList<>();
+    @JoinColumn(name = "proprietaire", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch=FetchType.EAGER)
+    private Client proprietaire;
 
     public CompteBancaire() {
     }
     
-    public CompteBancaire(String nomProprietaire, int solde) {
-        this.nomProprietaire = nomProprietaire;
+    public CompteBancaire(Client proprietaire, int solde) {
+        this.proprietaire = proprietaire;
         this.solde = solde;
         OperationBancaire op = new OperationBancaire("Création du compte", solde);  
         operations.add(op);
@@ -60,15 +63,11 @@ public class CompteBancaire implements Serializable {
     public Integer getId() {
         return id;
     }
-    
-    /**
-     * Get the value of nomProprietaire
-     *
-     * @return the value of nomProprietaire
-     */
-    public String getNomProprietaire() {
-        return nomProprietaire;
+
+    public Client getProprietaire() {
+        return proprietaire;
     }
+    
 
     /**
      * Get the value of solde
@@ -87,13 +86,8 @@ public class CompteBancaire implements Serializable {
         this.id = id;
     }
 
-    /**
-     * Set the value of nom
-     *
-     * @param nom new value of nom
-     */
-    public void setNomProprietaire(String nomProprietaire) {
-        this.nomProprietaire = nomProprietaire;
+    public void setProprietaire(Client proprietaire) {
+        this.proprietaire = proprietaire;
     }
     
     /**

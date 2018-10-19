@@ -45,10 +45,10 @@ public class GestionnaireDeCompteBancaire {
         em.persist(object);
     }
 
-    public void creerComptesTest() {  
+    /*public void creerComptesTest() {  
         creerCompte(new CompteBancaire("John Lennon", 150000));  
         creerCompte(new CompteBancaire("Paul McCartney", 950000));  
         creerCompte(new CompteBancaire("Ringo Starr", 20000));  
         creerCompte(new CompteBancaire("Georges Harrisson", 100000));  
-    } 
+    }*/ 
 }

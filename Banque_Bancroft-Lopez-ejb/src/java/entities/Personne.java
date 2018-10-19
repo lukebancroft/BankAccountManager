@@ -6,68 +6,60 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  *
  * @author Luke
  */
 @Entity
-public class OperationBancaire implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String description;
-    @Temporal(javax.persistence.TemporalType.DATE) 
-    private Date dateOperation;
-    private int montant;
+    protected Long id;
+    private String username;
+    private String password;
     
-    public OperationBancaire() { }  
-  
-    public OperationBancaire(String description, int montant) {  
-        this.description = description;  
-        this.montant = montant;  
-        dateOperation = new Date();  
+    public Personne() {
+    }
+    
+    public Personne(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getUsername() {
+        return username;
     }
 
-    public Date getDateOperation() {
-        return dateOperation;
-    }
-
-    public int getMontant() {
-        return montant;
+    public String getPassword() {
+        return password;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setDateOperation(Date dateOperation) {
-        this.dateOperation = dateOperation;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-    public void setMontant(int montant) {
-        this.montant = montant;
-    }
+    
 
     @Override
     public int hashCode() {
@@ -79,10 +71,10 @@ public class OperationBancaire implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OperationBancaire)) {
+        if (!(object instanceof Personne)) {
             return false;
         }
-        OperationBancaire other = (OperationBancaire) object;
+        Personne other = (Personne) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +83,7 @@ public class OperationBancaire implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.OperationBancaire[ id=" + id + " ]";
+        return "entities.Personne[ id=" + id + " ]";
     }
     
 }

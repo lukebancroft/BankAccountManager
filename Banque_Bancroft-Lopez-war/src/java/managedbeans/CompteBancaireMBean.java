@@ -6,7 +6,9 @@
 package managedbeans;
 
 
+import entities.Client;
 import entities.CompteBancaire;
+import entities.Personne;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,20 +18,21 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import session.ClientManager;
 import session.CompteBancaireManager;
 
 /**
  *
  * @author Luke
  */
-@Named(value = "compteBancaireMBean")
+@Named
 @ViewScoped
 public class CompteBancaireMBean implements Serializable {
     private List<CompteBancaire> compteBancaireList; 
     private LazyDataModel<CompteBancaire> compteBancaireLazyList;
   
     @EJB  
-    private CompteBancaireManager compteBancaireManager;  
+    private CompteBancaireManager compteBancaireManager;
   
     public CompteBancaireMBean() {  
         compteBancaireLazyList = new LazyDataModel<CompteBancaire>(){
@@ -47,7 +50,7 @@ public class CompteBancaireMBean implements Serializable {
                 return compteBancaireManager.getNbComptes();      
             }
         };
-    }  
+    }
   
     /** 
      * Renvoie la liste des comptes bancaires pour affichage dans une DataTable 
@@ -77,4 +80,16 @@ public class CompteBancaireMBean implements Serializable {
         return "OperationsCompteBancaire?idCompteBancaire=" + idCompteBancaire;
     }
     
+    /*public void onIndexLoad() {
+        Client c1 = new Client("lulu", "123", "luke", "br");
+        Client c2 = new Client("fabi", "123", "fabien", "l");
+        Client c3 = new Client("amo", "123", "amosse", "a");
+        
+        CompteBancaire cb1 = new CompteBancaire(c1, 100);
+        CompteBancaire cb2 = new CompteBancaire(c1, 1200);
+        CompteBancaire cb3 = new CompteBancaire(c2, 2000);
+        CompteBancaire cb4 = new CompteBancaire(c3, 31000);
+        cm.persist(c1);
+        compteBancaireManager.persist(cb1);
+    }*/
 }

@@ -34,8 +34,8 @@
                                     filterMatchMode="contains">    
                                 <h:link outcome="#{compteBancaireMBean.showDetails(compteBancaire.id)}" value="#{compteBancaire.id}"/>    
                             </p:column>
-                            <p:column headerText="Nom propriétaire" sortBy="#{compteBancaire.nomProprietaire}" filterBy="#{compteBancaire.nomProprietaire}" filterMatchMode="contains">
-                                <h:outputText value="#{compteBancaire.nomProprietaire}"/>
+                            <p:column headerText="Nom propriétaire" sortBy="#{compteBancaire.proprietaire}" filterBy="#{compteBancaire.proprietaire}" filterMatchMode="contains">
+                                <h:outputText value="#{compteBancaire.proprietaire}"/>
                             </p:column>
                             <p:column headerText="Solde" sortBy="#{compteBancaire.solde}" filterBy="#{compteBancaire.solde}">
                                 <h:outputText value="#{compteBancaire.solde}"/>

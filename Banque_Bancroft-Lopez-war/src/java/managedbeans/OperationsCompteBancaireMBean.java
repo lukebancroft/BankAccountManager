@@ -47,4 +47,9 @@ public class OperationsCompteBancaireMBean implements Serializable {
         return compteBancaireManager.getOperationsbyCompteBancaireId(idCompteBancaire);
     }
     
+    public String list() {  
+    System.out.println("###LIST###");  
+    return "CompteBancaireList?faces-redirect=true";  
+  }
+    
 }

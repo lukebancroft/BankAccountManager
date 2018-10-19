@@ -40,6 +40,8 @@
                                 <h:outputText value="#{operation.montant}"/>
                             </p:column>
                         </p:dataTable>
+                        <p:commandButton id="back" value="Back" action="#{operationsCompteBancaireMBean.list}" ajax="false"/>  
+                        
                     </h:form>
 
                 </f:view>
