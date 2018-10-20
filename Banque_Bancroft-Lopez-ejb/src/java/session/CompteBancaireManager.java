@@ -48,7 +48,7 @@ public class CompteBancaireManager {
     }
     
     public int getNbComptes(){
-        Query query = em.createNamedQuery("CompteBanquaire.getNbComptes");
+        Query query = em.createNamedQuery("CompteBancaire.getNbComptes");
         
         return ((Long) query.getSingleResult()).intValue();
     }
@@ -77,5 +77,5 @@ public class CompteBancaireManager {
         Query query = em.createNamedQuery("CompteBancaire.getOperationsByCompteBancaireId");
         query.setParameter("idCompteBancaire", idCompteBancaire);
         return query.getResultList();
-  }
+    }
 }

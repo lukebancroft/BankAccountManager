@@ -6,6 +6,7 @@
 package session;
 
 import entities.OperationBancaire;
+import entities.CompteBancaire;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -39,6 +40,22 @@ public class OperationBancaireManager {
     public List<OperationBancaire> getAllOperationBancaires() {
         Query query = em.createNamedQuery("OperationBancaire.findAll");  
         return query.getResultList();
+    }
+    
+    
+    public List<OperationBancaire> getLazyOperationBancaires(int start, int nbOperations, long idCompteBancaire){
+        Query query =em.createNamedQuery("CompteBancaire.getOperationsByCompteBancaireId");
+        query.setParameter("idCompteBancaire", idCompteBancaire);
+        query.setFirstResult(start);
+        query.setMaxResults(nbOperations);
+        
+        return query.getResultList();
+    }
+    
+    public int getNbOperations(){
+        Query query = em.createNamedQuery("OperationBancaire.getNbOperations");
+        
+        return ((Long) query.getSingleResult()).intValue();
     }
 
     public OperationBancaire update(OperationBancaire operationBancaire) {

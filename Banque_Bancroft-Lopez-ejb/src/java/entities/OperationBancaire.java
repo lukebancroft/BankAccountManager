@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
 /**
@@ -18,6 +20,14 @@ import javax.persistence.Temporal;
  * @author Luke
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "OperationBancaire.findAll",
+        query = "SELECT ob FROM OperationBancaire ob"),
+    @NamedQuery(name = "OperationBancaire.findById",
+        query = "SELECT o FROM OperationBancaire o WHERE o.id = :id"),
+    @NamedQuery(name = "OperationBancaire.getNbOperations", 
+        query = "SELECT COUNT(o) FROM OperationBancaire o")
+})
 public class OperationBancaire implements Serializable {
 
     private static final long serialVersionUID = 1L;

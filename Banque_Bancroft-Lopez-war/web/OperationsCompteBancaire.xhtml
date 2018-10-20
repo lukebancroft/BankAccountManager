@@ -21,12 +21,13 @@
             <ui:define name="content">
                 <f:view>
                     <h:form>
-                        <p:dataTable value="#{operationsCompteBancaireMBean.operationsCompteBancaire}"  var="operation" 
+                        <p:dataTable value="#{operationsCompteBancaireMBean.operationBancairesLazy}"  var="operation" 
                                      emptyMessage="Ce compte bancaire n'a pas d'opérations"   
                                      widgetVar="operationsTable"  
                                      paginator="true"  
-                                     rows="10"
-                                     rowsPerPageTemplate="5,10,15">
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,15"
+                                     lazy="true">
                             <p:column headerText="Date"  
                                     sortBy="#{operation.dateOperation}"  
                                     filterBy="#{operation.dateOperation}"  

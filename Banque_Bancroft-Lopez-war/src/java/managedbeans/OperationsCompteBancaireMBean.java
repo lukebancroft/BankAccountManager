@@ -7,11 +7,16 @@ package managedbeans;
 
 import entities.OperationBancaire;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import session.CompteBancaireManager;
+import session.OperationBancaireManager;
 
 /**
  *
@@ -20,10 +25,13 @@ import session.CompteBancaireManager;
 @Named
 @ViewScoped  
 public class OperationsCompteBancaireMBean implements Serializable {
-    private List<OperationBancaire> operationBancaireList;  
+    private List<OperationBancaire> operationBancaireList;
+    private LazyDataModel<OperationBancaire> operationBancaireLazyList;
       
   @EJB  
   private CompteBancaireManager compteBancaireManager; 
+  @EJB  
+  private OperationBancaireManager operationBancaireManager; 
   
   private int idCompteBancaire;  
 
@@ -31,6 +39,21 @@ public class OperationsCompteBancaireMBean implements Serializable {
      * Creates a new instance of OperationsCompteBancaireMBean
      */
     public OperationsCompteBancaireMBean() {
+        operationBancaireLazyList = new LazyDataModel<OperationBancaire>(){
+
+            @Override
+            public List load(int i, int i1, String string, SortOrder so, Map map) {
+                List<OperationBancaire> operations = new ArrayList<OperationBancaire>();
+                operations = operationBancaireManager.getLazyOperationBancaires(i, i1, idCompteBancaire);
+                System.out.println("####### Taille du Lazy ####### : " + operations.size());
+                return operations;
+            }            
+                          
+            @Override     
+            public int getRowCount() {       
+                return operationBancaireManager.getNbOperations();      
+            }
+        };
     }
     
     public int getIdCompteBancaire() {  
@@ -45,6 +68,14 @@ public class OperationsCompteBancaireMBean implements Serializable {
         System.out.println("ID IS :" + idCompteBancaire);
         System.out.println(compteBancaireManager.getCompteBancaire(idCompteBancaire).getOperations().size());
         return compteBancaireManager.getOperationsbyCompteBancaireId(idCompteBancaire);
+    }
+    
+    /** 
+     * Renvoie la liste des operations bancaires avec lazy loading pour affichage dans une DataTable 
+     * @return 
+     */  
+    public LazyDataModel getOperationBancairesLazy() {  
+        return operationBancaireLazyList;  
     }
     
     public String list() {  
