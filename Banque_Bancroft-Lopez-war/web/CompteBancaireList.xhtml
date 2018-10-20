@@ -14,6 +14,12 @@
             </ui:define>
             <ui:define name="content">
                 <f:view>
+                    
+                    <p:breadCrumb>
+                        <p:menuitem value="Accueil" url="index.xhtml" />
+                        <p:menuitem value="Liste des comptes bancaires" url="#" />
+                    </p:breadCrumb>
+                    
                     <h:form>
                         <p:dataTable value="#{compteBancaireMBean.compteBancairesLazy}"  var="compteBancaire" 
                                      emptyMessage="No account found with given criteria"   
@@ -36,8 +42,8 @@
                                     filterMatchMode="contains">    
                                 <h:link outcome="#{compteBancaireMBean.showDetails(compteBancaire.id)}" value="#{compteBancaire.id}"/>    
                             </p:column>
-                            <p:column headerText="Nom propriétaire" sortBy="#{compteBancaire.proprietaire}" filterBy="#{compteBancaire.proprietaire}" filterMatchMode="contains">
-                                <h:outputText value="#{compteBancaire.proprietaire}"/>
+                            <p:column headerText="Nom propriétaire" sortBy="#{compteBancaire.proprietaire.nom}" filterBy="#{compteBancaire.proprietaire.nom}" filterMatchMode="contains">
+                                <h:outputText value="#{compteBancaire.proprietaire.nom} #{compteBancaire.proprietaire.prenom}"/>
                             </p:column>
                             <p:column headerText="Solde" sortBy="#{compteBancaire.solde}" filterBy="#{compteBancaire.solde}">
                                 <h:outputText value="#{compteBancaire.solde}"/>

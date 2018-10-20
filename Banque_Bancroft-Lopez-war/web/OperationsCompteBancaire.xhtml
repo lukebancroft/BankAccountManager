@@ -20,6 +20,11 @@
             
             <ui:define name="content">
                 <f:view>
+                    <p:breadCrumb>
+                        <p:menuitem value="Accueil" url="index.xhtml" />
+                        <p:menuitem value="Liste des comptes bancaires" url="CompteBancaireList.xhtml" />
+                        <p:menuitem value="Opérations du compte bancaire" url="#" />
+                    </p:breadCrumb>
                     <h:form>
                         <p:dataTable value="#{operationsCompteBancaireMBean.operationBancairesLazy}"  var="operation" 
                                      emptyMessage="Ce compte bancaire n'a pas d'opérations"   

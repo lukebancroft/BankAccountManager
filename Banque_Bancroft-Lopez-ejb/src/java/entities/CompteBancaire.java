@@ -134,15 +134,15 @@ public class CompteBancaire implements Serializable {
         operations.add(op);
     }  
     
-  public int retirer(int montant) {  
-    if (montant < solde) {  
-      solde -= montant;  
-      OperationBancaire op = new OperationBancaire("Débit", montant);  
-      operations.add(op);
-      return montant;  
-    } else {  
-      return 0;  
+    public int retirer(int montant) {  
+      if (montant < solde) {  
+        solde -= montant;  
+        OperationBancaire op = new OperationBancaire("Débit", montant);  
+        operations.add(op);
+        return montant;  
+      } else {  
+        return 0;  
+      }  
     }  
-  }  
     
 }

@@ -5,10 +5,10 @@
  */
 package session;
 
-import entities.Conseiller;
+import entities.Administrateur;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,7 +19,7 @@ import javax.persistence.Query;
  */
 @Stateless
 @LocalBean
-public class ConseillerManager {
+public class AdministrateurManager {
 
     @PersistenceContext(unitName = "Banque_Bancroft-Lopez-ejbPU")
     private EntityManager em;
@@ -28,19 +28,18 @@ public class ConseillerManager {
         em.persist(object);
     }
 
-    public void creerConseiller(Conseiller c) {
-        persist(c);
+    public void creerAdministrateur(Administrateur a) {
+        persist(a);
     }
 
-    public int getNbConseillers(){
-        Query query = em.createNamedQuery("Conseiller.getNbConseillers");
+    public int getNbAdministrateurs(){
+        Query query = em.createNamedQuery("Administrateur.getNbAdministrateurs");
         
         return ((Long) query.getSingleResult()).intValue();
     }
     
-    public List<Conseiller> getAllConseillers() {
-        Query query = em.createNamedQuery("Conseiller.findAll");  
+    public List<Administrateur> getAllAdministrateurs() {
+        Query query = em.createNamedQuery("Administrateur.findAll");  
         return query.getResultList();
     }
-    
 }

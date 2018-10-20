@@ -9,18 +9,13 @@
     <h:body>
 
         <ui:composition template="./resources/templates/template_default.xhtml">
-
-            <!-- <ui:define name="metadata">
-                <f:metadata>   
-                    <f:viewAction action="#{compteBancaireMBean.onIndexLoad}"/>  
-                </f:metadata> 
-            </ui:define> -->
             
             <ui:define name="Title">
                 Accueil
             </ui:define>
 
             <ui:define name="content">
+                <p:chart type="pie" model="#{dashboardMBean.pieModel}" style="width:600px;height:450px" />
             </ui:define>
 
         </ui:composition>

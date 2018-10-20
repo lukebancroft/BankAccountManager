@@ -11,6 +11,8 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -18,6 +20,14 @@ import javax.persistence.OneToMany;
  * @author Luke
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Client.findAll",
+        query = "SELECT c FROM Client c"),
+    @NamedQuery(name = "Client.findById",
+        query = "SELECT c FROM Client c WHERE c.id = :id"),
+    @NamedQuery(name = "Client.getNbClients", 
+        query = "SELECT COUNT(c) FROM Client c")
+})
 public class Client extends Personne implements Serializable {
 
     private String nom;
@@ -34,6 +44,7 @@ public class Client extends Personne implements Serializable {
         this.prenom = prenom;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -51,6 +62,7 @@ public class Client extends Personne implements Serializable {
         return comptes;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

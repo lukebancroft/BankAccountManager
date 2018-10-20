@@ -23,6 +23,13 @@
             
             <ui:define name="content">
                 <f:view>
+                    
+                    <p:breadCrumb>
+                        <p:menuitem value="Accueil" url="index.xhtml" />
+                        <p:menuitem value="Liste des comptes bancaires" url="CompteBancaireList.xhtml" />
+                        <p:menuitem value="Détails du compte bancaire" url="#" />
+                    </p:breadCrumb>
+                    
                     <h:form>
                         <h1><h:outputText value="Editer le solde"/></h1>
                         <p:panelGrid columns="4">
