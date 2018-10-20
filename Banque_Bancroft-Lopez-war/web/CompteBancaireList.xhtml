@@ -17,7 +17,8 @@
                     <h:form>
                         <p:dataTable value="#{compteBancaireMBean.compteBancairesLazy}"  var="compteBancaire" 
                                      emptyMessage="No account found with given criteria"   
-                                     widgetVar="compteBancaireTable"  
+                                     widgetVar="compteBancaireTable"
+                                     id="compteBancaireTable"
                                      paginator="true"  
                                      rows="5"
                                      rowsPerPageTemplate="5,10,15"
@@ -26,8 +27,9 @@
                                 <p:outputPanel>    
                                     <h:outputText value="Search all fields:" />    
                                     <p:inputText id="globalFilter" onkeyup="PF('compteBancaireTable').filter()" style="width:150px" placeholder="Entrez un mot-clé" />    
-                                </p:outputPanel>  
+                                </p:outputPanel>
                             </f:facet>
+                            
                             <p:column headerText="Id compte bancaire"  
                                     sortBy="#{compteBancaire.id}"  
                                     filterBy="#{compteBancaire.id}"  
@@ -44,6 +46,26 @@
                                 <h:link outcome="#{compteBancaireMBean.showOperations(compteBancaire.id)}" value="Détails"/> 
                             </p:column>
                         </p:dataTable>
+                        
+                        <h:commandLink>
+                            <p:button icon="fa fa-file-excel-o"/>
+                            <p:dataExporter type="xls" target="compteBancaireTable" fileName="compteBancaireTable" encoding="ISO-8859-15" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:button icon="fa fa-file-pdf-o"/>
+                            <p:dataExporter type="pdf" target="compteBancaireTable" fileName="compteBancaireTable" encoding="ISO-8859-15"/>
+                        </h:commandLink>
+
+                        <h:commandLink>
+                                <p:button icon="fa fa-file-text-o"/>
+                                <p:dataExporter type="csv" target="compteBancaireTable" fileName="compteBancaireTable" encoding="ISO-8859-15" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                                <p:button icon="fa fa-file-code-o"/>
+                                <p:dataExporter type="xml" target="compteBancaireTable" fileName="compteBancaireTable" encoding="ISO-8859-15" />
+                        </h:commandLink>
                     </h:form>
                 </f:view>
             </ui:define>

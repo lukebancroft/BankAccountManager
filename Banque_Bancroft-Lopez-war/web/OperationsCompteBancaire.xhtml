@@ -23,7 +23,8 @@
                     <h:form>
                         <p:dataTable value="#{operationsCompteBancaireMBean.operationBancairesLazy}"  var="operation" 
                                      emptyMessage="Ce compte bancaire n'a pas d'opérations"   
-                                     widgetVar="operationsTable"  
+                                     widgetVar="operationsTable" 
+                                     id="operationsTable"
                                      paginator="true"  
                                      rows="5"
                                      rowsPerPageTemplate="5,10,15"
@@ -41,6 +42,27 @@
                                 <h:outputText value="#{operation.montant}"/>
                             </p:column>
                         </p:dataTable>
+                        
+                        <h:commandLink>
+                            <p:button icon="fa fa-file-excel-o"/>
+                            <p:dataExporter type="xls" target="operationsTable" fileName="operationsTable" encoding="ISO-8859-15" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:button icon="fa fa-file-pdf-o"/>
+                            <p:dataExporter type="pdf" target="operationsTable" fileName="operationsTable" encoding="ISO-8859-15"/>
+                        </h:commandLink>
+
+                        <h:commandLink>
+                                <p:button icon="fa fa-file-text-o"/>
+                                <p:dataExporter type="csv" target="operationsTable" fileName="operationsTable" encoding="ISO-8859-15" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                                <p:button icon="fa fa-file-code-o"/>
+                                <p:dataExporter type="xml" target="operationsTable" fileName="operationsTable" encoding="ISO-8859-15" />
+                        </h:commandLink>
+                        <br/>
                         <p:commandButton id="back" value="Back" action="#{operationsCompteBancaireMBean.list}" ajax="false"/>  
                         
                     </h:form>
