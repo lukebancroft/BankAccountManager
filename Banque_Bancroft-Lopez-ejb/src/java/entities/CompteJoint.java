@@ -31,6 +31,8 @@ public class CompteJoint extends CompteBancaire implements Serializable {
     public CompteJoint(Client proprietaire ,Client secondProprietaire, int solde) {
         super(proprietaire, solde);
         this.secondProprietaire = secondProprietaire;
+        proprietaire.addCompteBeneficiaire(this);
+        secondProprietaire.addCompteBeneficiaire(this);
     }
     
     @Override
@@ -48,7 +50,9 @@ public class CompteJoint extends CompteBancaire implements Serializable {
     }
 
     public void setSecondProprietaire(Client secondProprietaire) {
+        this.secondProprietaire.removeCompteBeneficiaire(this);
         this.secondProprietaire = secondProprietaire;
+        this.secondProprietaire.addCompteBeneficiaire(this);
     }
 
     @Override

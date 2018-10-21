@@ -8,9 +8,13 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -34,6 +38,11 @@ public class Client extends Personne implements Serializable {
     private String prenom;
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="proprietaire")
     private Collection<CompteBancaire> comptes = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "client_compteBeneficiaire",
+        joinColumns = @JoinColumn(name = "client_id", referencedColumnName="id"),
+        inverseJoinColumns = @JoinColumn(name = "compteBancaire_id", referencedColumnName="id"))
+    private List<CompteBancaire> comptesBeneficiaires = new ArrayList<>();
 
     public Client() {
     }
@@ -42,6 +51,13 @@ public class Client extends Personne implements Serializable {
         super(username, password);
         this.nom = nom;
         this.prenom = prenom;
+    }
+    
+    public Client(String username, String password, String nom, String prenom, Collection<CompteBancaire> comptes) {
+        super(username, password);
+        this.nom = nom;
+        this.prenom = prenom;
+        this.comptes = comptes;
     }
 
     @Override
@@ -62,6 +78,10 @@ public class Client extends Personne implements Serializable {
         return comptes;
     }
 
+    public List<CompteBancaire> getComptesBeneficiaires() {
+        return comptesBeneficiaires;
+    }
+
     @Override
     public void setId(Long id) {
         this.id = id;
@@ -79,13 +99,27 @@ public class Client extends Personne implements Serializable {
     public void setComptes(Collection<CompteBancaire> comptes) {
         this.comptes = comptes;
     }
+
+    public void setComptesBeneficiaires(List<CompteBancaire> comptesBeneficiaires) {
+        this.comptesBeneficiaires = comptesBeneficiaires;
+    }
     
     public void addCompte(CompteBancaire compte) {
         comptes.add(compte);
+        addCompteBeneficiaire(compte);
     }
  
     public void removeCompte(CompteBancaire compte) {
         comptes.remove(compte);
+        removeCompteBeneficiaire(compte);
+    }
+    
+    public void addCompteBeneficiaire(CompteBancaire compte) {
+        comptesBeneficiaires.add(compte);
+    }
+ 
+    public void removeCompteBeneficiaire(CompteBancaire compte) {
+        comptesBeneficiaires.remove(compte);
     }
     
     @Override

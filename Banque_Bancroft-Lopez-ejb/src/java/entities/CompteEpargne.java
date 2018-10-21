@@ -26,6 +26,7 @@ public class CompteEpargne extends CompteBancaire implements Serializable {
     public CompteEpargne(Client proprietaire, int solde, double txInteret) {
         super(proprietaire, solde);
         this.txInteret = txInteret;
+        proprietaire.addCompteBeneficiaire(this);
     }
     
     @Override

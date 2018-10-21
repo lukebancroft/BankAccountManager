@@ -2,6 +2,10 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/Luke/Documents/MBDS/TPs/Serveurs%20d'application%20et%20java%20avancé/Banque_Bancroft-Lopez/Banque_Bancroft-Lopez-war/src/java/managedbeans/DashboardMBean.java</file>
+            <file>file:/Users/Luke/Documents/MBDS/TPs/Serveurs%20d'application%20et%20java%20avancé/Banque_Bancroft-Lopez/Banque_Bancroft-Lopez-war/web/CompteBancaireDetails.xhtml</file>
+            <file>file:/Users/Luke/Documents/MBDS/TPs/Serveurs%20d'application%20et%20java%20avancé/Banque_Bancroft-Lopez/Banque_Bancroft-Lopez-war/web/dashboard.xhtml</file>
+        </group>
     </open-files>
 </project-private>

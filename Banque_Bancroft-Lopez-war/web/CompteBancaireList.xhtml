@@ -45,6 +45,9 @@
                             <p:column headerText="Nom propriétaire" sortBy="#{compteBancaire.proprietaire.nom}" filterBy="#{compteBancaire.proprietaire.nom}" filterMatchMode="contains">
                                 <h:outputText value="#{compteBancaire.proprietaire.nom} #{compteBancaire.proprietaire.prenom}"/>
                             </p:column>
+                            <p:column headerText="Type" sortBy="#{compteBancaire.class.simpleName}" filterBy="#{compteBancaire.class.simpleName}">
+                                <h:outputText value="#{compteBancaire.class.simpleName}"/>
+                            </p:column>
                             <p:column headerText="Solde" sortBy="#{compteBancaire.solde}" filterBy="#{compteBancaire.solde}">
                                 <h:outputText value="#{compteBancaire.solde}"/>
                             </p:column>

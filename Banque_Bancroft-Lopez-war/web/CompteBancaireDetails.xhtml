@@ -54,8 +54,11 @@
                             <p:inputText id="compteBancaireId" value="#{compteBancaireDetailsMBean.details.id}" title="compteBancaireId" disabled="true"/>
 
                             <p:outputLabel for="compteRecepteurId" value="Compte récepteur : " />
-                            <p:inputText id="compteRecepteurId" value="#{compteBancaireDetailsMBean.compteRecepteurId}" title="compteRecepteurId" required="true" requiredMessage="Le compte récepteur est requis." placeholder="Saisissez l'id du compte récepteur"/>
-
+                            <p:selectOneMenu id="compteRecepteurId" value="#{compteBancaireDetailsMBean.compteRecepteurId}" title="compteRecepteurId" required="true" requiredMessage="Le compte récepteur est requis." >
+                                <f:selectItem itemLabel="Sélectionner..." itemValue="" />
+                                <f:selectItems value="#{compteBancaire.proprietaire.comptesBeneficiaires}" />
+                            </p:selectOneMenu>
+                            
                             <p:outputLabel for="montantVirement" value="Montant : " />
                             <p:spinner id="montantVirement" title="montantVirement" value="#{compteBancaireDetailsMBean.montantVirement}" placeholder="Saisissez le montant du virement"/>
                         </p:panelGrid>
