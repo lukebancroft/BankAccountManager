@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -25,6 +27,7 @@ import javax.persistence.OneToMany;
  * @author Luke
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @NamedQueries({
     @NamedQuery(name = "CompteBancaire.findAll",
         query = "SELECT cb FROM CompteBancaire cb"),
@@ -37,12 +40,12 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "CompteBancaire.getNbComptes", 
         query = "SELECT COUNT(c) FROM CompteBancaire c")
 })
-public class CompteBancaire implements Serializable {
+public abstract class CompteBancaire implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    protected Integer id;
     private int solde;
     @OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private Collection<OperationBancaire> operations = new ArrayList<>();
@@ -68,12 +71,6 @@ public class CompteBancaire implements Serializable {
         return proprietaire;
     }
     
-
-    /**
-     * Get the value of solde
-     *
-     * @return the value of solde
-     */
     public int getSolde() {
         return solde;
     }
@@ -90,11 +87,6 @@ public class CompteBancaire implements Serializable {
         this.proprietaire = proprietaire;
     }
     
-    /**
-     * Set the value of solde
-     *
-     * @param solde new value of solde
-     */
     public void setSolde(int solde) {
         this.solde = solde;
     }

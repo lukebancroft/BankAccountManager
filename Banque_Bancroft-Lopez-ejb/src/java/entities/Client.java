@@ -80,6 +80,14 @@ public class Client extends Personne implements Serializable {
         this.comptes = comptes;
     }
     
+    public void addCompte(CompteBancaire compte) {
+        comptes.add(compte);
+    }
+ 
+    public void removeCompte(CompteBancaire compte) {
+        comptes.remove(compte);
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
