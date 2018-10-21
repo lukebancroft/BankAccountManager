@@ -7,19 +7,12 @@ package session;
 
 import entities.CompteBancaire;
 import entities.OperationBancaire;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Timer;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
-import javax.ejb.ScheduleExpression;
-import javax.ejb.Singleton;
+import javax.ejb.Schedule;
 import javax.ejb.Startup;
-import javax.ejb.Timeout;
-import javax.ejb.TimerConfig;
-import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -28,7 +21,7 @@ import javax.persistence.Query;
  *
  * @author Luke
  */
-@Singleton
+@Stateless
 @LocalBean
 @Startup
 public class CompteBancaireManager {
@@ -36,27 +29,17 @@ public class CompteBancaireManager {
     @PersistenceContext(unitName = "Banque_Bancroft-Lopez-ejbPU")
     private EntityManager em;
 
-    @Resource
-    private TimerService timerService;
-
-    @PostConstruct
-    private void init() {
-        TimerConfig timerConfig = new TimerConfig();
-        timerConfig.setInfo("CalendarProgTimerDemo_Info");
-        ScheduleExpression schedule = new ScheduleExpression();
-        schedule.hour("*").minute("*").second("01,11,21,31,41,51");
-        timerService.createCalendarTimer(schedule, timerConfig); 
-    } 
-
-    @Timeout
-    public void execute(Timer timer) {
+    @SuppressWarnings("unused")
+    @Schedule(second="*/10", minute="*", hour="*", dayOfWeek="*", 
+            dayOfMonth="*", month="*", year="*", info="MyTimer")
+    private void scheduledTimeout(final Timer t) {
         for (CompteBancaire c : getAllCompteBancaires()){
             c.setSolde(c.getSolde()+1);
             update(c);
         }
-        System.out.println("Timer Service : " + timer.getInfo());
-        System.out.println("Execution Time : " + new Date());
-        System.out.println("____________________________________________");   
+        System.out.println("@Schedule called at: " + new java.util.Date());
+        System.out.println("+ 1 euro sur chaque compte bancaire.");
+        System.out.println("____________________________________________");
     }
     
     public void creerCompte(CompteBancaire c) {
