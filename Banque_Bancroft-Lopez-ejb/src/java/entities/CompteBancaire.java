@@ -6,6 +6,9 @@
 package entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
@@ -38,7 +41,11 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "CompteBancaire.getOperationsByCompteBancaireId",
         query = "SELECT o FROM CompteBancaire c join c.operations o WHERE c.id = :idCompteBancaire"),
     @NamedQuery(name = "CompteBancaire.getNbComptes", 
-        query = "SELECT COUNT(c) FROM CompteBancaire c")
+        query = "SELECT COUNT(c) FROM CompteBancaire c"),
+    @NamedQuery(name = "CompteBancaire.findAllByClient", 
+        query = "SELECT cb FROM CompteBancaire cb WHERE cb.proprietaire = :client"),
+    @NamedQuery(name = "CompteBancaire.getNbComptesByClient", 
+        query = "SELECT COUNT(cb) FROM CompteBancaire cb WHERE cb.proprietaire = :client")
 })
 public abstract class CompteBancaire implements Serializable {
 
@@ -46,7 +53,7 @@ public abstract class CompteBancaire implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Integer id;
-    private int solde;
+    private double solde;
     @OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private Collection<OperationBancaire> operations = new ArrayList<>();
     @JoinColumn(name = "proprietaire", referencedColumnName = "id")
@@ -71,8 +78,14 @@ public abstract class CompteBancaire implements Serializable {
         return proprietaire;
     }
     
-    public int getSolde() {
+    public double getSolde() {
         return solde;
+    }
+    
+    public String getDisplaySolde() {
+        double displaySolde = new BigDecimal(solde).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(displaySolde);
     }
 
     public Collection<OperationBancaire> getOperations() {
@@ -87,7 +100,7 @@ public abstract class CompteBancaire implements Serializable {
         this.proprietaire = proprietaire;
     }
     
-    public void setSolde(int solde) {
+    public void setSolde(double solde) {
         this.solde = solde;
     }
 

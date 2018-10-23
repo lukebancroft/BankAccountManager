@@ -5,7 +5,9 @@
  */
 package session;
 
+import entities.Client;
 import entities.CompteBancaire;
+import entities.CompteEpargne;
 import entities.OperationBancaire;
 import java.util.List;
 import javax.ejb.Timer;
@@ -34,11 +36,14 @@ public class CompteBancaireManager {
             dayOfMonth="*", month="*", year="*", info="MyTimer")
     private void scheduledTimeout(final Timer t) {
         for (CompteBancaire c : getAllCompteBancaires()){
-            c.setSolde(c.getSolde()+1);
-            update(c);
+            if(c instanceof CompteEpargne) {
+                CompteEpargne ce = (CompteEpargne) c;
+                ce.setSolde(ce.getSolde() + (ce.getSolde() * ce.getTxInteret()/100));
+                update(ce);
+            }
         }
         System.out.println("@Schedule called at: " + new java.util.Date());
-        System.out.println("+ 1 euro sur chaque compte bancaire.");
+        System.out.println("Les comptes épargne ont été crédités de leut taux d'intérêt.");
         System.out.println("____________________________________________");
     }
     
@@ -55,6 +60,12 @@ public class CompteBancaireManager {
         return query.getResultList();
     }
     
+    public List<CompteBancaire> getAllCompteBancairesByProprietaire(Client proprietaire) {
+        Query query = em.createNamedQuery("CompteBancaire.findByProprietaire");  
+        query.setParameter("proprietaire", proprietaire);
+        return query.getResultList();
+    }
+    
     public List<CompteBancaire> getLazyCompteBancaires(int start, int nbComptes){
         
         Query query =em.createNamedQuery("CompteBancaire.findAll");
@@ -66,6 +77,13 @@ public class CompteBancaireManager {
     
     public int getNbComptes(){
         Query query = em.createNamedQuery("CompteBancaire.getNbComptes");
+        
+        return ((Long) query.getSingleResult()).intValue();
+    }
+    
+    public int getNbComptesByClient(Client client){
+        Query query = em.createNamedQuery("CompteBancaire.getNbComptesByClient");
+        query.setParameter("client", client);
         
         return ((Long) query.getSingleResult()).intValue();
     }
@@ -93,6 +111,16 @@ public class CompteBancaireManager {
     public List<OperationBancaire> getOperationsbyCompteBancaireId(long idCompteBancaire) {
         Query query = em.createNamedQuery("CompteBancaire.getOperationsByCompteBancaireId");
         query.setParameter("idCompteBancaire", idCompteBancaire);
+        return query.getResultList();
+    }
+    
+    public List<CompteBancaire> getLazyCompteBancairesByClient(int start, int nbComptes, Client client){
+        
+        Query query =em.createNamedQuery("CompteBancaire.findAllByClient");
+        query.setFirstResult(start);
+        query.setMaxResults(nbComptes);
+        query.setParameter("client", client);
+        
         return query.getResultList();
     }
 }

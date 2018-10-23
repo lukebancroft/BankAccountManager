@@ -8,9 +8,11 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -25,8 +27,14 @@ import javax.persistence.Temporal;
         query = "SELECT ob FROM OperationBancaire ob"),
     @NamedQuery(name = "OperationBancaire.findById",
         query = "SELECT o FROM OperationBancaire o WHERE o.id = :id"),
+    @NamedQuery(name = "OperationBancaire.getOperationsByClient",
+        query = "SELECT o FROM CompteBancaire c join c.operations o WHERE c.id in :idComptes"),
     @NamedQuery(name = "OperationBancaire.getNbOperations", 
-        query = "SELECT COUNT(o) FROM OperationBancaire o")
+        query = "SELECT COUNT(o) FROM OperationBancaire o"),
+    @NamedQuery(name = "OperationBancaire.getOperationsByCompteBancaireId",
+        query = "SELECT o FROM OperationBancaire o WHERE o.id = :id"),
+    @NamedQuery(name = "OperationBancaire.getNbOperationsByClient",
+        query = "SELECT COUNT(o) FROM CompteBancaire c join c.operations o WHERE c.id in :idComptes")
 })
 public class OperationBancaire implements Serializable {
 

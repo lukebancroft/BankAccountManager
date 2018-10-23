@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:body>
+        <ui:composition template="./resources/templates/template_default.xhtml">
+            <ui:define name="metadata">
+                <f:metadata>  
+                    <f:viewParam name="idClient" value="#{clientCompteBancaireListMBean.idClient}"  
+                                 required="true"/>  
+                    <f:viewAction action="#{clientCompteBancaireListMBean.loadCompteBancaire}"/>  
+                </f:metadata> 
+            </ui:define>
+            
+            
+            <ui:define name="Title">
+                Vos Comptes bancaires
+            </ui:define>
+            <ui:define name="content">
+                <f:view>
+                    
+                    <p:breadCrumb>
+                        <p:menuitem value="Accueil" url="index.xhtml" />
+                        <p:menuitem value="Vos comptes bancaires" url="#" />
+                    </p:breadCrumb>
+                    
+                    <h:form>
+                        <p:dataTable value="#{clientCompteBancaireListMBean.compteBancaireLazyList}"  var="compteBancaire" 
+                                     emptyMessage="Aucun compte trouvé"   
+                                     widgetVar="compteBancaireTable"
+                                     id="compteBancaireTable"
+                                     paginator="true"  
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,15"
+                                     lazy="true">
+                           <f:facet name="header">  
+                               Comptes dont vous êtes le propriétaire
+                                <p:outputPanel>    
+                                    <h:outputText value="Search all fields:" />    
+                                    <p:inputText id="globalFilter" onkeyup="PF('compteBancaireTable').filter()" style="width:150px" placeholder="Entrez un mot-clé" />    
+                                </p:outputPanel>
+                            </f:facet>
+                            
+                            <p:column headerText="Id compte bancaire"  
+                                    sortBy="#{compteBancaire.id}"  
+                                    filterBy="#{compteBancaire.id}"  
+                                    filterMatchMode="contains">    
+                                <h:link outcome="#{compteBancaireMBean.showDetails(compteBancaire.id)}" value="#{compteBancaire.id}"/>    
+                            </p:column>
+                            <p:column headerText="Type" sortBy="#{compteBancaire.class.simpleName}" filterBy="#{compteBancaire.class.simpleName}">
+                                <h:outputText value="#{compteBancaire.class.simpleName}"/>
+                            </p:column>
+                            <p:column headerText="Solde" sortBy="#{compteBancaire.displaySolde}" filterBy="#{compteBancaire.displaySolde}">
+                                <h:outputText value="#{compteBancaire.displaySolde}"/>
+                            </p:column>
+                            <p:column headerText="Détails des opérations" filterBy="#{compteBancaire.operations}" filterStyle="display:none">
+                                <h:link outcome="#{compteBancaireMBean.showOperations(compteBancaire.id)}" value="Détails"/> 
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <h:commandLink>
+                            <p:button icon="fa fa-file-excel-o"/>
+                            <p:dataExporter type="xls" target="compteBancaireTable" fileName="compteBancaireTable" encoding="ISO-8859-15" pageOnly = "true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:button icon="fa fa-file-pdf-o"/>
+                            <p:dataExporter type="pdf" target="compteBancaireTable" fileName="compteBancaireTable" encoding="ISO-8859-15" pageOnly = "true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                                <p:button icon="fa fa-file-text-o"/>
+                                <p:dataExporter type="csv" target="compteBancaireTable" fileName="compteBancaireTable" encoding="ISO-8859-15" pageOnly = "true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                                <p:button icon="fa fa-file-code-o"/>
+                                <p:dataExporter type="xml" target="compteBancaireTable" fileName="compteBancaireTable" encoding="ISO-8859-15" pageOnly = "true" />
+                        </h:commandLink>
+                        
+                        <h:link outcome="#{clientCompteBancaireListMBean.showOperations()}" value="Voir toutes les opérations de vos comptes"/> 
+                    </h:form>
+                    
+                    
+                    <h:form>
+                        <p:dataTable value="#{clientCompteBancaireListMBean.compteJointLazyList}"  var="compteJoint" 
+                                     emptyMessage="Aucun compte joint trouvé"   
+                                     widgetVar="compteJointTable"
+                                     id="compteJointTable"
+                                     paginator="true"  
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,15"
+                                     lazy="true">
+                           <f:facet name="header"> 
+                               Comptes joints dont vous êtes le second propriétaire
+                                <p:outputPanel>    
+                                    <h:outputText value="Search all fields:" />    
+                                    <p:inputText id="globalFilter" onkeyup="PF('compteJointTable').filter()" style="width:150px" placeholder="Entrez un mot-clé" />    
+                                </p:outputPanel>
+                            </f:facet>
+                            
+                            <p:column headerText="Id compte joint"  
+                                    sortBy="#{compteJoint.id}"  
+                                    filterBy="#{compteJoint.id}"  
+                                    filterMatchMode="contains">    
+                                <h:link outcome="#{compteBancaireMBean.showDetails(compteJoint.id)}" value="#{compteJoint.id}"/>    
+                            </p:column>
+                            <p:column headerText="Type" sortBy="#{compteJoint.class.simpleName}" filterBy="#{compteJoint.class.simpleName}" filterStyle="display:none">
+                                <h:outputText value="#{compteJoint.class.simpleName}"/>
+                            </p:column>
+                            <p:column headerText="Solde" sortBy="#{compteJoint.displaySolde}" filterBy="#{compteJoint.displaySolde}">
+                                <h:outputText value="#{compteJoint.displaySolde}"/>
+                            </p:column>
+                            <p:column headerText="Détails des opérations" filterBy="#{compteJoint.operations}" filterStyle="display:none">
+                                <h:link outcome="#{compteBancaireMBean.showOperations(compteJoint.id)}" value="Détails"/> 
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <h:commandLink>
+                            <p:button icon="fa fa-file-excel-o"/>
+                            <p:dataExporter type="xls" target="compteJointTable" fileName="compteJointTable" encoding="ISO-8859-15" pageOnly = "true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:button icon="fa fa-file-pdf-o"/>
+                            <p:dataExporter type="pdf" target="compteJointTable" fileName="compteJointTable" encoding="ISO-8859-15" pageOnly = "true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                                <p:button icon="fa fa-file-text-o"/>
+                                <p:dataExporter type="csv" target="compteJointTable" fileName="compteJointTable" encoding="ISO-8859-15" pageOnly = "true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                                <p:button icon="fa fa-file-code-o"/>
+                                <p:dataExporter type="xml" target="compteJointTable" fileName="compteJointTable" encoding="ISO-8859-15" pageOnly = "true" />
+                        </h:commandLink>
+                    </h:form>
+                </f:view>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

@@ -84,6 +84,7 @@ public class DashboardMBean {
             CompteBancaire cb7 = new CompteEpargne(cl5, 32000, 1.75);
             CompteBancaire cb8 = new CompteJoint(cl5, cl1, 25000);
             compteBancaireManager.creerCompte(cb1);
+            compteBancaireManager.update(cb1);
             compteBancaireManager.creerCompte(cb2);
             compteBancaireManager.creerCompte(cb3);
             compteBancaireManager.creerCompte(cb4);
@@ -91,6 +92,15 @@ public class DashboardMBean {
             compteBancaireManager.creerCompte(cb6);
             compteBancaireManager.creerCompte(cb7);
             compteBancaireManager.creerCompte(cb8);
+            
+            cl1.addCompteBeneficiaire(cb3);
+            cl4.addCompteBeneficiaire(cb7);
+            cl2.addCompteBeneficiaire(cb8);
+            clientManager.update(cl1);
+            clientManager.update(cl2);
+            clientManager.update(cl3);
+            clientManager.update(cl4);
+            clientManager.update(cl5);
         }
     }
     

@@ -2,7 +2,9 @@ package managedbeans;
   
 import entities.CompteBancaire;  
 import java.io.Serializable;  
+import java.util.LinkedHashMap;
 import java.util.List;  
+import java.util.Map;
 import javax.ejb.EJB;  
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,6 +26,7 @@ public class CompteBancaireDetailsMBean implements Serializable {
   private int montantOp = 0;  
   private int montantVirement = 0;  
   private CompteBancaire compteBancaire;  
+  private Map<Integer, String> beneficiaires = new LinkedHashMap<>();
   
   @EJB  
   private CompteBancaireManager compteBancaireManager;  
@@ -47,6 +50,11 @@ public class CompteBancaireDetailsMBean implements Serializable {
   public int getMontantVirement() {  
     return montantVirement;  
   }
+
+    public Map<Integer, String> getBeneficiaires() {
+        return beneficiaires;
+    }
+
   
   public void setIdCompteBancaire(int idCompteBancaire) {  
     this.idCompteBancaire = idCompteBancaire;  
@@ -67,6 +75,11 @@ public class CompteBancaireDetailsMBean implements Serializable {
   public void setMontantVirement(int montantVirement) {  
     this.montantVirement = montantVirement;  
   }
+
+    public void setBeneficiaires(Map<Integer, String> beneficiaires) {
+        this.beneficiaires = beneficiaires;
+    }
+  
   
   /** 
    * Renvoie les détails du CompteBancaire courant (celui dans l'attribut CompteBancaire de 
@@ -131,6 +144,12 @@ public class CompteBancaireDetailsMBean implements Serializable {
   }  
   
   public void loadCompteBancaire() {  
-    this.compteBancaire = compteBancaireManager.getCompteBancaire(idCompteBancaire);  
-  } 
+    this.compteBancaire = compteBancaireManager.getCompteBancaire(idCompteBancaire);
+    List<CompteBancaire> comptesBeneficiaires = this.compteBancaire.getProprietaire().getComptesBeneficiaires();
+    if(comptesBeneficiaires != null && comptesBeneficiaires.size() > 0) {
+        comptesBeneficiaires.forEach((cb) -> {
+            this.beneficiaires.put(cb.getId(), cb.getProprietaire().getNom() + " " + cb.getProprietaire().getPrenom());
+      }); 
+    }
+  }
 }

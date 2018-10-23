@@ -79,8 +79,8 @@ public class OperationsCompteBancaireMBean implements Serializable {
     }
     
     public String list() {  
-    System.out.println("###LIST###");  
-    return "CompteBancaireList?faces-redirect=true";  
-  }
+        System.out.println("###LIST###");  
+        return "CompteBancaireList?faces-redirect=true";  
+    }
     
 }

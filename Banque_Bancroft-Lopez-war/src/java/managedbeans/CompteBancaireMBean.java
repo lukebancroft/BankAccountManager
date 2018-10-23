@@ -80,6 +80,10 @@ public class CompteBancaireMBean implements Serializable {
         return "OperationsCompteBancaire?idCompteBancaire=" + idCompteBancaire;
     }
     
+    public String showComptesClient(int idCompteBancaire) {
+        return "ClientCompteBancaireList?idClient=" + compteBancaireManager.getCompteBancaire(idCompteBancaire).getProprietaire().getId();
+    }
+    
     /*public void onIndexLoad() {
         Client c1 = new Client("lulu", "123", "luke", "br");
         Client c2 = new Client("fabi", "123", "fabien", "l");

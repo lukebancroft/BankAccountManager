@@ -6,7 +6,7 @@
 package session;
 
 import entities.Client;
-import entities.CompteBancaire;
+import entities.CompteJoint;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -20,7 +20,7 @@ import javax.persistence.Query;
  */
 @Stateless
 @LocalBean
-public class ClientManager {
+public class CompteJointManager {
 
     @PersistenceContext(unitName = "Banque_Bancroft-Lopez-ejbPU")
     private EntityManager em;
@@ -29,26 +29,20 @@ public class ClientManager {
         em.persist(object);
     }
 
-    public void creerClient(Client c) {
-        persist(c);
-    }
-    
-    public Client update(Client client) {
-        return em.merge(client);
-    }
-
-    public int getNbClients(){
-        Query query = em.createNamedQuery("Client.getNbClients");
+    public List<CompteJoint> getLazyComptesJointBySecondProprio(int start, int nbComptes, Client client){
         
-        return ((Long) query.getSingleResult()).intValue();
-    }
-    
-    public List<Client> getAllClients() {
-        Query query = em.createNamedQuery("Client.findAll");  
+        Query query =em.createNamedQuery("CompteJoint.findAllBySecondProprio");
+        query.setFirstResult(start);
+        query.setMaxResults(nbComptes);
+        query.setParameter("client", client);
+        
         return query.getResultList();
     }
     
-    public Client getClient(Long idClient) {  
-        return em.find(Client.class, idClient);  
+    public int getNbComptesJointBySecondProprio(Client client){
+        Query query = em.createNamedQuery("CompteJoint.getNbComptesBySecondProprio");
+        query.setParameter("client", client);
+        
+        return ((Long) query.getSingleResult()).intValue();
     }
 }

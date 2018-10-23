@@ -42,6 +42,9 @@ public class CompteCourant extends CompteBancaire implements Serializable {
         super(proprietaire, solde);
         this.coproprietaires = coproprietaires;
         proprietaire.addCompteBeneficiaire(this);
+        for(Client copro : coproprietaires) {
+            copro.addCompteBeneficiaire(this);
+        }
     }
     
     @Override
@@ -68,13 +71,13 @@ public class CompteCourant extends CompteBancaire implements Serializable {
         }
     }
     
-    public void addClient(Client client) {
+    public void addCoproprietaire(Client client) {
         coproprietaires.add(client);
         client.addCompte(this);
         client.addCompteBeneficiaire(this);
     }
  
-    public void removeClient(Client client) {
+    public void removeCoproprietaire(Client client) {
         coproprietaires.remove(client);
         client.removeCompte(this);
         client.removeCompteBeneficiaire(this);

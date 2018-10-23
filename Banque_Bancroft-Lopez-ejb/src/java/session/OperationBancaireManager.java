@@ -5,8 +5,10 @@
  */
 package session;
 
+import entities.Client;
 import entities.OperationBancaire;
 import entities.CompteBancaire;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -51,9 +53,25 @@ public class OperationBancaireManager {
         
         return query.getResultList();
     }
+          
+    public List<OperationBancaire> getLazyOperationBancairesByClient(int start, int nbOperations, List<Integer> idComptes){
+        Query query = em.createNamedQuery("OperationBancaire.getOperationsByClient");
+        query.setParameter("idComptes", idComptes);
+        query.setFirstResult(start);
+        query.setMaxResults(nbOperations);
+        
+        return query.getResultList();
+    }
     
     public int getNbOperations(){
         Query query = em.createNamedQuery("OperationBancaire.getNbOperations");
+        
+        return ((Long) query.getSingleResult()).intValue();
+    }
+    
+    public int getNbOperationsByClient(List<Integer> idComptes){
+        Query query = em.createNamedQuery("OperationBancaire.getNbOperationsByClient");
+        query.setParameter("idComptes", idComptes);
         
         return ((Long) query.getSingleResult()).intValue();
     }

@@ -18,7 +18,7 @@
             </ui:define>
             
             <ui:define name="Title">
-                Détails du Compte bancaire
+                Détails du Compte bancaire #{compteBancaireDetailsMBean.idCompteBancaire}
             </ui:define>
             
             <ui:define name="content">
@@ -56,7 +56,8 @@
                             <p:outputLabel for="compteRecepteurId" value="Compte récepteur : " />
                             <p:selectOneMenu id="compteRecepteurId" value="#{compteBancaireDetailsMBean.compteRecepteurId}" title="compteRecepteurId" required="true" requiredMessage="Le compte récepteur est requis." >
                                 <f:selectItem itemLabel="Sélectionner..." itemValue="" />
-                                <f:selectItems value="#{compteBancaire.proprietaire.comptesBeneficiaires}" />
+                                <f:selectItems value="#{compteBancaireDetailsMBean.beneficiaires.entrySet()}" var="beneficiaire"
+                                               itemValue="#{beneficiaire.key}" itemLabel="#{beneficiaire.key} #{beneficiaire.value}"/>
                             </p:selectOneMenu>
                             
                             <p:outputLabel for="montantVirement" value="Montant : " />

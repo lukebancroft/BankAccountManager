@@ -13,12 +13,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Luke
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "CompteJoint.findAll",
+        query = "SELECT cj FROM CompteJoint cj"),
+    @NamedQuery(name = "CompteJoint.findAllBySecondProprio", 
+        query = "SELECT cj FROM CompteJoint cj WHERE cj.secondProprietaire = :client"),
+    @NamedQuery(name = "CompteJoint.getNbComptesBySecondProprio", 
+        query = "SELECT COUNT(cj) FROM CompteJoint cj WHERE cj.secondProprietaire = :client")
+})
 public class CompteJoint extends CompteBancaire implements Serializable {
 
     @JoinColumn(name = "secondProprietaire", referencedColumnName = "id")

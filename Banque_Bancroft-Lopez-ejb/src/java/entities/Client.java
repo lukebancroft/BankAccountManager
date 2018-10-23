@@ -38,10 +38,10 @@ public class Client extends Personne implements Serializable {
     private String prenom;
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="proprietaire")
     private Collection<CompteBancaire> comptes = new ArrayList<>();
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinTable(name = "client_compteBeneficiaire",
-        joinColumns = @JoinColumn(name = "client_id", referencedColumnName="id"),
-        inverseJoinColumns = @JoinColumn(name = "compteBancaire_id", referencedColumnName="id"))
+        joinColumns = @JoinColumn(name = "client_id"),
+        inverseJoinColumns = @JoinColumn(name = "compteBancaire_id"))
     private List<CompteBancaire> comptesBeneficiaires = new ArrayList<>();
 
     public Client() {

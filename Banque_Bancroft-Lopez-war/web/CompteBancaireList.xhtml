@@ -22,7 +22,7 @@
                     
                     <h:form>
                         <p:dataTable value="#{compteBancaireMBean.compteBancairesLazy}"  var="compteBancaire" 
-                                     emptyMessage="No account found with given criteria"   
+                                     emptyMessage="Aucun compte bancaire trouvé, allez sur la page d'accueil pour générer des données de test"   
                                      widgetVar="compteBancaireTable"
                                      id="compteBancaireTable"
                                      paginator="true"  
@@ -43,13 +43,13 @@
                                 <h:link outcome="#{compteBancaireMBean.showDetails(compteBancaire.id)}" value="#{compteBancaire.id}"/>    
                             </p:column>
                             <p:column headerText="Nom propriétaire" sortBy="#{compteBancaire.proprietaire.nom}" filterBy="#{compteBancaire.proprietaire.nom}" filterMatchMode="contains">
-                                <h:outputText value="#{compteBancaire.proprietaire.nom} #{compteBancaire.proprietaire.prenom}"/>
+                                <h:link outcome="#{compteBancaireMBean.showComptesClient(compteBancaire.id)}" value="#{compteBancaire.proprietaire.nom} #{compteBancaire.proprietaire.prenom}"/>
                             </p:column>
                             <p:column headerText="Type" sortBy="#{compteBancaire.class.simpleName}" filterBy="#{compteBancaire.class.simpleName}">
                                 <h:outputText value="#{compteBancaire.class.simpleName}"/>
                             </p:column>
-                            <p:column headerText="Solde" sortBy="#{compteBancaire.solde}" filterBy="#{compteBancaire.solde}">
-                                <h:outputText value="#{compteBancaire.solde}"/>
+                            <p:column headerText="Solde" sortBy="#{compteBancaire.displaySolde}" filterBy="#{compteBancaire.displaySolde}">
+                                <h:outputText value="#{compteBancaire.displaySolde}"/>
                             </p:column>
                             <p:column headerText="Détails des opérations" filterBy="#{compteBancaire.operations}" filterStyle="display:none">
                                 <h:link outcome="#{compteBancaireMBean.showOperations(compteBancaire.id)}" value="Détails"/> 

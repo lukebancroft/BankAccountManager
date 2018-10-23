@@ -7,26 +7,27 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
     <f:metadata>  
-        <f:viewParam name="idCompteBancaire" value="#{operationsCompteBancaireMBean.idCompteBancaire}"  
+        <f:viewParam name="idClient" value="#{operationsClientMBean.idClient}"  
                      required="true"/>  
+    <f:viewAction action="#{operationsClientMBean.onLoad}" />
     </f:metadata>  
     
     <h:body>
         <ui:composition template="./resources/templates/template_default.xhtml">
 
             <ui:define name="Title">
-                Détails des opérations du compte #{operationsCompteBancaireMBean.idCompteBancaire}
+                Détails des opérations de #{operationsClientMBean.client.prenom} #{operationsClientMBean.client.nom}
             </ui:define>
             
             <ui:define name="content">
                 <f:view>
                     <p:breadCrumb>
                         <p:menuitem value="Accueil" url="index.xhtml" />
-                        <p:menuitem value="Liste des comptes bancaires" url="CompteBancaireList.xhtml" />
-                        <p:menuitem value="Opérations du compte bancaire" url="#" />
+                        <p:menuitem value="Vos comptes bancaires" url="ClientCompteBancaireList.xhtml" />
+                        <p:menuitem value="Vos opérations" url="#" />
                     </p:breadCrumb>
                     <h:form>
-                        <p:dataTable value="#{operationsCompteBancaireMBean.operationBancairesLazy}"  var="operation" 
+                        <p:dataTable value="#{operationsClientMBean.operationBancaireLazyList}"  var="operation" 
                                      emptyMessage="Ce compte bancaire n'a pas d'opérations"   
                                      widgetVar="operationsTable" 
                                      id="operationsTable"
@@ -34,6 +35,9 @@
                                      rows="5"
                                      rowsPerPageTemplate="5,10,15"
                                      lazy="true">
+                            <f:facet name="header">  
+                               Opérations des comptes dont #{operationsClientMBean.client.prenom} #{operationsClientMBean.client.nom} est le propriétaire
+                            </f:facet>
                             <p:column headerText="Date"  
                                     sortBy="#{operation.dateOperation}"  
                                     filterBy="#{operation.dateOperation}"  
@@ -68,7 +72,7 @@
                                 <p:dataExporter type="xml" target="operationsTable" fileName="operationsTable" encoding="ISO-8859-15" pageOnly = "true" />
                         </h:commandLink>
                         <br/>
-                        <p:commandButton id="back" value="Back" action="#{operationsCompteBancaireMBean.list}" ajax="false"/>  
+                        <p:commandButton id="back" value="Back" action="#{operationsClientMBean.list}" ajax="false"/>  
                         
                     </h:form>
 
